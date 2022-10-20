@@ -1,0 +1,15 @@
+
+//  =================
+//      Imports
+//  =================
+
+@import '../../base/base';    // Base Variables
+
+.table-status{
+    display: inline-flex;
+
+    .t-dot{
+        margin-right: 10px !important;
+        margin-top: 2.5px !important;
+    }
+}

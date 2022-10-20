@@ -1,0 +1,41 @@
+
+//  =================
+//      Imports
+//  =================
+
+@import '../../base/base';    // Base Variables
+
+.table-controls {
+    padding: 0;
+    margin: 0;
+    list-style: none;
+    text-align: center;
+
+    > li {
+        display: inline-block;
+        margin: 0 2px;
+        line-height: 1;
+
+        > a {
+            display: inline-block;
+
+            i {
+                margin: 0;
+                color: #555;
+                font-size: 16px;
+                display: block;
+
+                &:hover {
+                    text-decoration: none;
+                }
+            }
+        }
+    }
+}
+
+.select2 .multiselect__option--highlight { background: #fff; color: #4361ee; }
+.select2 .multiselect__option--selected { background-color: rgba(27, 85, 226, 0.23921568627450981); color: #4361ee; font-weight: normal; }
+.select2 .multiselect__option--disabled { background: inherit !important; }
+.select2 .multiselect__tag { color: #000; background: #e4e4e4; }
+.select2 .multiselect__tag-icon:after { color: #000 !important; }
+.select2 .multiselect__tag-icon:focus, .select2 .multiselect__tag-icon:hover { background: inherit; }

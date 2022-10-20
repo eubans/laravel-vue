@@ -1,0 +1,27 @@
+
+//  =================
+//      Imports
+//  =================
+
+@import '../../base/base';    // Base Variables
+
+.form-group.text-right{
+    display: flex;
+    flex-direction: row-reverse;
+}
+.form-group.text-right button{
+    margin-top: 30px;
+}
+.quill-primary-description .ql-editor{
+    min-height: 100px;
+}
+.quill-description .ql-editor{
+    min-height: 250px;
+}
+
+.select2 .multiselect__option--highlight { background: #fff; color: #4361ee; }
+.select2 .multiselect__option--selected { background-color: rgba(27, 85, 226, 0.23921568627450981); color: #4361ee; font-weight: normal; }
+.select2 .multiselect__option--disabled { background: inherit !important; }
+.select2 .multiselect__tag { color: #000; background: #e4e4e4; }
+.select2 .multiselect__tag-icon:after { color: #000 !important; }
+.select2 .multiselect__tag-icon:focus, .select2 .multiselect__tag-icon:hover { background: inherit; }

@@ -1,0 +1,21 @@
+<?php
+
+namespace App\Models;
+
+use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Model;
+
+class UserStatus extends Model
+{
+    use HasFactory;
+
+    public static function getAll()
+    {
+        return UserStatus::get();
+    }
+
+    public static function getAllActive()
+    {
+        return UserStatus::where('status', 'active')->get();
+    }
+}

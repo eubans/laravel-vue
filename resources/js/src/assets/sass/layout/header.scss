@@ -1,0 +1,29 @@
+//  =================
+//      Imports
+//  =================
+
+@import '../../base/base';    // Base Variables
+
+.header.navbar {
+    background-color: $primary;
+}
+
+.notification-title .b-dropdown-text {
+    padding-left: 1rem!important;
+}
+.notification-item {
+    border-bottom: 1px solid #d7d7d7 !important;
+
+    &.unread{
+        .dropdown-item{
+            background-color: #dfeaff !important;
+        }
+    }
+}
+.notification-item:last-child {
+    border-bottom: 0 !important;
+}
+.dropdown-menu.notification-scroll.dropdown-menu-right{
+    overflow-y: scroll !important;
+    height: 90vh !important;
+}
