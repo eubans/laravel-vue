@@ -10,18 +10,13 @@ use App\Models\User;
 use App\Models\Module;
 use App\Models\UserExternalData;
 use Laravel\Socialite\Facades\Socialite;
+use App\Models\module_accesses;
 use Auth;
 use Hash;
 
 class AuthenticationController extends Controller
 {
-    // public function testingGround(Request $request){
-    //     $user= Module::getURL(1);
-    //     $url = str_replace('\\',"", $user);
 
-    //     \Log::info($url) ;
-    //     return view('testingWorld');
-    // }
     //this method adds new users
     public function register(Request $request)
     {
@@ -79,7 +74,7 @@ class AuthenticationController extends Controller
 
         $response = [
             'user' => User::getUserDetails($user->id),
-            'modules'=>Module::getURL($user->user_type_id),
+            'user_access'=>module_accesses::getURL($user->user_type_id),
             'token' => $token
         ];
         return response($response, 201);
@@ -137,6 +132,7 @@ class AuthenticationController extends Controller
     //return user token
     public function user()
     {
+
         $response = [
             'status' => true,
             'message' => 'Login successful!',

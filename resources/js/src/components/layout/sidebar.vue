@@ -37,9 +37,9 @@
                     </a>
                     <b-collapse id="verifications" accordion="menu">
                         <ul class="collapse submenu list-unstyled show">
-                            <router-link v-if='["GST"].includes(USERTYPE)' tag="li" to="/verification/pending" @click.native="toggleMobileMenu"><a>Pending</a></router-link>
-                            <router-link v-if='["GST"].includes(USERTYPE)' tag="li" to="/verification/approved" @click.native="toggleMobileMenu"><a>Approved</a></router-link>
-                            <router-link v-if='["GST"].includes(USERTYPE)' tag="li" to="/verification/declined" @click.native="toggleMobileMenu"><a>Declined</a></router-link>
+                            <router-link v-if='isModuleAllowed("/verification/pending")' tag="li" to="/verification/pending" @click.native="toggleMobileMenu"><a>Pending</a></router-link>
+                            <router-link v-if='isModuleAllowed("/verification/approved")' tag="li" to="/verification/approved" @click.native="toggleMobileMenu"><a>Approved</a></router-link>
+                            <router-link v-if='isModuleAllowed("/verification/declined")' tag="li" to="/verification/declined" @click.native="toggleMobileMenu"><a>Declined</a></router-link>
                         </ul>
                     </b-collapse>
                 </li>
@@ -100,40 +100,12 @@
                     </a>
                     <b-collapse id="elements" accordion="menu">
                         <ul class="collapse submenu list-unstyled show">
-                            <router-link v-if='["ADM"].includes(USERTYPE)' tag="li" to="/settings/users" @click.native="toggleMobileMenu"><a>Users</a></router-link>
-                            <router-link v-if='["ADM"].includes(USERTYPE)' tag="li" to="/settings/users/roles" @click.native="toggleMobileMenu"><a>User Role</a></router-link>
-                            <router-link v-if='["ADM"].includes(USERTYPE)' tag="li" to="/settings/users/types" @click.native="toggleMobileMenu"><a>User Type</a></router-link>
+                            <router-link v-if='isModuleAllowed("/settings/users")' tag="li" to="/settings/users" @click.native="toggleMobileMenu"><a>Users</a></router-link>
+                            <router-link v-if='isModuleAllowed("/settings/users/roles")' tag="li" to="/settings/users/roles" @click.native="toggleMobileMenu"><a>User Role</a></router-link>
+                            <router-link v-if='isModuleAllowed("/settings/users/types")' tag="li" to="/settings/users/types" @click.native="toggleMobileMenu"><a>User Type</a></router-link>
                         </ul>
                     </b-collapse>
                 </li>
-                <!-- <li class="menu" v-if="isRoleAllowed('settings')">
-                    <a href="#account_el" v-b-toggle class="dropdown-toggle" @click.prevent>
-                        <div class="">
-                            <i data-feather="settings"></i> <span>Test</span>
-                        </div>
-                        <div>
-                            <svg
-                                xmlns="http://www.w3.org/2000/svg"
-                                width="24"
-                                height="24"
-                                viewBox="0 0 24 24"
-                                fill="none"
-                                stroke="currentColor"
-                                stroke-width="2"
-                                stroke-linecap="round"
-                                stroke-linejoin="round"
-                                class="feather feather-chevron-right"
-                            >
-                                <polyline points="9 18 15 12 9 6"></polyline>
-                            </svg>
-                        </div>
-                    </a>
-                    <b-collapse id="account_el" accordion="menu">
-                        <ul class="collapse submenu list-unstyled show">
-                            <router-link v-if='["GST"].includes(USERTYPE)' tag="li" to="/settings/users/test/" @click.native="toggleMobileMenu"><a>Test</a></router-link>
-                        </ul>
-                    </b-collapse>
-                </li> -->
 
             </perfect-scrollbar>
         </nav>
@@ -147,17 +119,18 @@
         data() {
             return {
                 menu_collapse: 'dashboard',
-                modules: [
-                    {
-                        'user_type': 'ADM',
-                        'modules': ['settings', 'help', 'claims']
-                    },
-                     {
-                        'user_type': 'GST',
-                        'modules': ['help', 'portfolio', 'verification', 'payment', 'claims']
-                    },
-                ],
+                // modules: [
+                //     {
+                //         'user_type': 'ADM',
+                //         'modules': ['settings', 'help', 'claims']
+                //     },
+                //     {
+                //         'user_type': 'GST',
+                //         'modules': ['help', 'portfolio', 'verification', 'payment', 'claims']
+                //     },
+                // ],
                 USERTYPE : this.$store.state.auth.user.user_type_code,
+                USER_ACCESS : this.$store.state.auth.user_access,
                 pendingCount: 0,
                 batchCount: 0,
             };
@@ -209,13 +182,24 @@
             },
             isRoleAllowed(role){
                 let isAccessAllowed = false;
-                let userType = this.$store.state.auth.user.user_type_code;
-                // let userTypeModel = this.$store.state.auth.user.user_type_code;
-                this.modules.forEach((value, index) => {
-                    if(value.user_type == userType){
-                        if(value.modules.includes(role)){
-                            isAccessAllowed = true;
-                        }
+                let userType = this.USER_ACCESS;
+
+                userType.forEach((value, index) => {
+                    if(value.name == role){
+                        isAccessAllowed = true;
+                    }
+                });
+
+                return isAccessAllowed;
+            },
+
+            isModuleAllowed(url){
+                let isAccessAllowed = false;
+                let userType = this.USER_ACCESS;
+
+                userType.forEach((value, index) => {
+                    if(value.url == url){
+                        isAccessAllowed = true;
                     }
                 });
 

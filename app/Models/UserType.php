@@ -11,7 +11,7 @@ class UserType extends Model
 
     public static function getAll()
     {
-        return UserType::get;
+        return UserType::get();
     }
 
     public static function getById($id)

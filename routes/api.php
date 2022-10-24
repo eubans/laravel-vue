@@ -22,8 +22,6 @@ use App\Http\Controllers\SocialAuthController;
 |
 */
 
-//Testing
-Route::get('/testing', [AuthenticationController::class, 'testingGround']);
 //login user
 Route::post('/login', [AuthenticationController::class, 'login']);
 

@@ -15,6 +15,12 @@
                     </div>
                 </li>
             </ul>
+            <ul class="navbar-nav flex-row">
+                <b-button variant="primary" class="mb-2 mr-4" @click="createUserType()">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-edit-2"><path d="M17 3a2.828 2.828 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5L17 3z"></path></svg>
+                    Create New User Type
+                </b-button>
+            </ul>
         </portal>
 
         <div class="row layout-top-spacing">
@@ -126,15 +132,23 @@
                 </div>
             </div>
         </div>
+        <edit-user-type-modal
+
+        ></edit-user-type-modal>
+        <!-- @submit-success="getData()"
+            :user-id="userId" -->
     </div>
 </template>
 
 <script>
     import feather from 'feather-icons';
     import '../../assets/sass/settings/user-types.scss';
-
+    import EditUserTypeModal from './user-types/edit-user-type-modal';
     export default {
         metaInfo: { title: 'Users Settings' },
+        components: {
+            EditUserTypeModal
+        },
         data() {
             return {
                 items: [],
@@ -153,7 +167,7 @@
         },
         mounted() {
             feather.replace();
-            
+
             this.bind_data();
         },
         methods: {
@@ -192,12 +206,17 @@
 
                     self.table_option.total_rows = self.items.length;
                     self.get_meta();
-                    
+
                     loader.hide();
                 }).catch(error=>{
                     console.log("Get All: "+error);
                     loader.hide();
                 })
+            },
+             createUserType(){
+                this.$bvModal.show('edit-user-type-modal');
+                // set empty to user id
+                this.userId = '';
             },
             bind_data() {
                 this.columns = [
@@ -207,7 +226,7 @@
                     { key: 'action', label: 'Actions', sortable: false }
                 ];
                 this.items = [];
-                
+
                 this.getData();
             },
             on_filtered(filtered_items) {

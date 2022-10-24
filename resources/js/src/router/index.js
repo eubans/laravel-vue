@@ -74,15 +74,7 @@ const routes = [
             middleware: "auth"
         }
     },
-    // {
-    //     // All paths START
-    //     path: '/settings/users/test',
-    //     name: 'test',
-    //     component: () => import('../views/settings/test.vue'),
-    //     meta: {
-    //         middleware: "guest"
-    //     }
-    // },
+
     {
         // Claims
         path: '/claims',
@@ -210,12 +202,12 @@ router.beforeEach((to, from, next) => {
             // console.log(['/'].includes(to.path));
 
 
-            console.log(to.path,"______",from.path);
-            console.log(store.state.auth.modules.find(e=>e.url == to.path));
-            console.log(store.state.auth.modules.some(e=>e.url == to.path));
+            // console.log(to.path,"______",from.path);
+            // console.log(store.state.auth.user_access.find(e=>e.url == to.path));
+            // console.log(store.state.auth.user_access.some(e=>e.url == to.path));
 
             if(!to.meta.excemptedModuleChecking){
-                if(!store.state.auth.modules.some(e=>e.url == to.path)){
+                if(!store.state.auth.user_access.some(e=>e.url == to.path)){
                     next({name: "dashboard"});
                 }
             }

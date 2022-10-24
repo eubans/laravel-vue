@@ -6,7 +6,7 @@ export default {
     state:{
         authenticated:false,
         user:{},
-        modules:{},
+        user_access:{},
         // user_type:{},
         token:null
     },
@@ -20,8 +20,8 @@ export default {
         // user_type(state){
         //     return state.user_type
         // },
-        modules(state){
-            return state.modules
+        user_access(state){
+            return state.user_access
         },
         token(state){
             return state.token
@@ -40,8 +40,8 @@ export default {
         // SET_USER_TYPE (state, value) {
         //     state.user_type = value
         // },
-        SET_MODULES(state,value){
-            state.modules = value
+        SET_USER_ACCESS(state,value){
+            state.user_access = value
         }
     },
     actions:{
@@ -50,7 +50,7 @@ export default {
             commit('SET_TOKEN',data.token)
             commit('SET_AUTHENTICATED',true)
             // commit('SET_USER_TYPE',data.user_type)
-            commit('SET_MODULES',data.modules)
+            commit('SET_USER_ACCESS',data.user_access)
             router.push('/')
         },
         logout({commit}){
