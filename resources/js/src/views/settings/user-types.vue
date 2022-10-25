@@ -167,7 +167,6 @@
         },
         mounted() {
             feather.replace();
-
             this.bind_data();
         },
         methods: {
@@ -206,7 +205,6 @@
 
                     self.table_option.total_rows = self.items.length;
                     self.get_meta();
-
                     loader.hide();
                 }).catch(error=>{
                     console.log("Get All: "+error);
@@ -230,7 +228,6 @@
                     { key: 'action', label: 'Actions', sortable: false }
                 ];
                 this.items = [];
-
                 this.getData();
             },
             on_filtered(filtered_items) {

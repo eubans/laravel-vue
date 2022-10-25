@@ -16,7 +16,6 @@ use Hash;
 
 class AuthenticationController extends Controller
 {
-
     //this method adds new users
     public function register(Request $request)
     {
@@ -59,15 +58,6 @@ class AuthenticationController extends Controller
         if (!$user || !Hash::check($fields['password'], $user->password)) {
             return response(['status' => false, 'message' => 'invalid email or password'], 401);
         }
-        // Check url/module
-        // $routes =Route::getRoutes();
-        // $request = Request::create(); //put url you want to check
-        // try{
-        //     $routes->match($request);
-        // }
-        // catch(\Symfony\Component\HttpKernel\Exception\NotFoundHttpException $e){
-        //     // route doesnt exists
-        // }
 
         //create token
         $token = $user->createToken('myapptoken')->plainTextToken;
@@ -132,7 +122,6 @@ class AuthenticationController extends Controller
     //return user token
     public function user()
     {
-
         $response = [
             'status' => true,
             'message' => 'Login successful!',

@@ -241,7 +241,7 @@
                             <img :src="require('../../assets/images/avatar-place-holder.jpg').default" alt="avatar" />
                         </template>
 
-                        <b-dropdown-item to="/users/profile" v-show="true">
+                        <b-dropdown-item to="/users/profile" v-show="false">
                             <svg
                                 xmlns="http://www.w3.org/2000/svg"
                                 width="24"

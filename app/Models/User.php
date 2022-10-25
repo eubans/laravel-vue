@@ -54,8 +54,6 @@ class User extends Authenticatable
             ->first();
     }
 
-    /*return  */
-
     public static function getAllByUserType($code)
     {
         return DB::table('users')

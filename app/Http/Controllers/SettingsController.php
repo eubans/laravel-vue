@@ -257,14 +257,10 @@ class SettingsController extends Controller
                     'status' => 'Failed',
                     'message' => ucwords($field).' is required.'
                 ), 400);
-                \Log::info($value);
             }
-            \Log::info($value);
         }
 
         $result = array();
-
-        \Log::info($request->selection);
         $user_type = array();
         $user_type['code']           = $request->code;
         $user_type['name']           = $request->user_type;
@@ -274,24 +270,18 @@ class SettingsController extends Controller
                     'status' => 'Success',
                     'message' => 'User Role successfully saved.'
                 );
-                \Log::info("YES YS YSE ADMIN");
             }else{
                 $result = array(
                     'status' => 'Failed',
                     'message' => 'An error occured while updating an admin, please contact the administrator.',
                 );
-                \Log::info("ERROR ADMIN");
             }
         }); // End transaction
 
         return response()->json($result, 201);
     }
 
-    public function hello(){
-        \Log::info("JHellfgja");
-    }
     # User Role
-
     public function userRoles()
     {
         $userRoles = UserRole::getAll();
@@ -381,8 +371,6 @@ class SettingsController extends Controller
 
         return response()->json($result, 201);
     }
-
-
 
     # User Status
 

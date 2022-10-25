@@ -17,9 +17,6 @@ export default {
         user(state){
             return state.user
         },
-        // user_type(state){
-        //     return state.user_type
-        // },
         user_access(state){
             return state.user_access
         },
@@ -37,9 +34,6 @@ export default {
         SET_TOKEN (state, token) {
             state.token = token
         },
-        // SET_USER_TYPE (state, value) {
-        //     state.user_type = value
-        // },
         SET_USER_ACCESS(state,value){
             state.user_access = value
         }
@@ -49,7 +43,6 @@ export default {
             commit('SET_USER',data.user)
             commit('SET_TOKEN',data.token)
             commit('SET_AUTHENTICATED',true)
-            // commit('SET_USER_TYPE',data.user_type)
             commit('SET_USER_ACCESS',data.user_access)
             router.push('/')
         },

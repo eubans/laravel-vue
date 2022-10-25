@@ -25,7 +25,6 @@ const routes = [
         meta: {
             middleware: "guest",
             title: `Register`
-
         }
     },
     {
@@ -175,7 +174,6 @@ router.beforeEach((to, from, next) => {
     next(true);
 });
 
-
 router.beforeEach((to, from, next) => {
     // setting up Sanctum Token globally
     axios.defaults.headers.common['Authorization'] = `Bearer ` + store.state.auth.token
@@ -188,7 +186,6 @@ router.beforeEach((to, from, next) => {
         }
         next()
     } else {
-
         if (store.state.auth.authenticated) {
             // checking if user is login then redirecting to login page
             axios.get('/api/user').catch(() => {
@@ -196,50 +193,19 @@ router.beforeEach((to, from, next) => {
                 store.state.auth.token = null;
                 router.push({ name: "login" })
             })
-
-            // Start modules checking -------------------------
-            // console.log(to.path, from.path);
-            // console.log(['/'].includes(to.path));
-
-
-            // console.log(to.path,"______",from.path);
-            // console.log(store.state.auth.user_access.find(e=>e.url == to.path));
-            // console.log(store.state.auth.user_access.some(e=>e.url == to.path));
-
             if(!to.meta.excemptedModuleChecking){
                 if(!store.state.auth.user_access.some(e=>e.url == to.path)){
                     next({name: "dashboard"});
                 }
             }
-
             next();
-
             //end--------------------------------------
         } else {
             next({ name: "login" })
         }
     }
-
-    //Added new router limiter based on module auth.js
-    // if(store.state.auth.modules.some(e=>e.url == to.path)){
-    //     next(to.path);
-    // }else{
-    //     next({name: "dashboard"});
-    // }
-
-
 });
-// router.beforeEach((to,from, next)=>{
-    //  Added new router limiter based on module auth.js
-    // console.log(from.path);
-    // console.log(store.state.auth.modules.some(e=>e.url == to.path));
-//     if(store.state.auth.modules.some(e=>e.url == to.path)){
-//         next();
-//     }else{
-//         next({name: "dashboard"});
-//     }
 
-// });
 
 router.onError(error => {
     if (/loading chunk\d* failed./i.test(error.message) && navigator.onLine) {

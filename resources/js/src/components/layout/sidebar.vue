@@ -119,16 +119,6 @@
         data() {
             return {
                 menu_collapse: 'dashboard',
-                // modules: [
-                //     {
-                //         'user_type': 'ADM',
-                //         'modules': ['settings', 'help', 'claims']
-                //     },
-                //     {
-                //         'user_type': 'GST',
-                //         'modules': ['help', 'portfolio', 'verification', 'payment', 'claims']
-                //     },
-                // ],
                 USERTYPE : this.$store.state.auth.user.user_type_code,
                 USER_ACCESS : this.$store.state.auth.user_access,
                 pendingCount: 0,
