@@ -425,7 +425,7 @@ export default {
             pageTitle: "Edit",
             editUserId: 0,
             form: {
-                user_type: {},
+                user_type: '',
                 user_role: [],
                 username: "",
                 password: "",
@@ -616,6 +616,8 @@ export default {
             formData.append("mobile", self.form.mobile);
             formData.append("status", self.form.status.id);
 
+
+
             //post call
             this.axios
                 .post("/api/settings/users/update", formData)
@@ -743,11 +745,17 @@ export default {
                     }
                 });
         },
+
+        testing(){
+                 let self = this;
+            let formData = new FormData();
+            console.log(formData.append("status", self.form.username));
+        },
         onReset() {
             // Reset form values
             this.form.username = "";
             this.form.password = "";
-            this.form.user_type = {};
+            this.form.user_type = '';
             this.form.user_role = [];
             this.form.firstname = "";
             this.form.middlename = "";

@@ -22,6 +22,7 @@ use App\Http\Controllers\SocialAuthController;
 |
 */
 
+Route::view('/baba', 'welcome');
 //login user
 Route::post('/login', [AuthenticationController::class, 'login']);
 
@@ -50,6 +51,7 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
 
     Route::get('/settings/user-types', [SettingsController::class, 'userTypes']);
     Route::get('/settings/user-types/{id}', [SettingsController::class, 'userTypeById']);
+    Route::post('/settings/user-types/save', [SettingsController::class, 'userTypeSave']);
 
     Route::get('/settings/user-roles', [SettingsController::class, 'userRoles']);
     Route::get('/settings/user-roles/{id}', [SettingsController::class, 'userRoleById']);

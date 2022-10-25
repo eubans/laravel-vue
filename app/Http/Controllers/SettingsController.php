@@ -249,6 +249,47 @@ class SettingsController extends Controller
         return response()->json($userType, 200);
     }
 
+    public function userTypeSave(Request $request){
+        $requiredFields = ['code', 'user_type', 'selection'];
+        foreach ($request->input() as $field => $value){
+            if(in_array($field, $requiredFields) && !$value){
+                return response()->json(array(
+                    'status' => 'Failed',
+                    'message' => ucwords($field).' is required.'
+                ), 400);
+                \Log::info($value);
+            }
+            \Log::info($value);
+        }
+
+        $result = array();
+
+        \Log::info($request->selection);
+        $user_type = array();
+        $user_type['code']           = $request->code;
+        $user_type['name']           = $request->user_type;
+        DB::transaction(function () use ($user_type, &$result, &$request) { // Automatically rollback transaction if there's a fault
+            if(UserType::saveUser($user_type)){
+                $result = array(
+                    'status' => 'Success',
+                    'message' => 'User Role successfully saved.'
+                );
+                \Log::info("YES YS YSE ADMIN");
+            }else{
+                $result = array(
+                    'status' => 'Failed',
+                    'message' => 'An error occured while updating an admin, please contact the administrator.',
+                );
+                \Log::info("ERROR ADMIN");
+            }
+        }); // End transaction
+
+        return response()->json($result, 201);
+    }
+
+    public function hello(){
+        \Log::info("JHellfgja");
+    }
     # User Role
 
     public function userRoles()

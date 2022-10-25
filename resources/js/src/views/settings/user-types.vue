@@ -80,7 +80,7 @@
                             </template>
                             <template #cell(action)="row">
                                 <div class="text-right">
-                                    <b-button :id="row.id" variant="primary" class="mb-2 mr-2">
+                                    <b-button :id="row.id" variant="primary" class="mb-2 mr-2" @click="editUserType(row.item.action.id)">
                                         <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-edit"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path></svg>
                                         Edit
                                     </b-button>
@@ -133,10 +133,10 @@
             </div>
         </div>
         <edit-user-type-modal
-
+            @submit-success="getData()"
+                :user-id="userId"
         ></edit-user-type-modal>
-        <!-- @submit-success="getData()"
-            :user-id="userId" -->
+
     </div>
 </template>
 
@@ -217,6 +217,10 @@
                 this.$bvModal.show('edit-user-type-modal');
                 // set empty to user id
                 this.userId = '';
+            },
+            editUserType(id){
+                this.$bvModal.show('edit-user-type-modal');
+                this.userId = id;
             },
             bind_data() {
                 this.columns = [

@@ -34,4 +34,10 @@ class UserType extends Model
     */
 
     /* public static function getisAccessible*/
+
+
+    public static function saveUser($fields)
+    {
+        return UserType::insertGetId($fields);
+    }
 }

@@ -187,7 +187,7 @@
                         <b-input
                             id="userTypeCodeField"
                             maxlength="3"
-                            v-model="form.user"
+                            v-model="form.code"
                             :class="[
                                 isFormSubmit
                                     ? form.user_type
@@ -241,13 +241,14 @@
                         <b-form-group  v-slot="{ ariaDescribedby }">
                             <b-form-checkbox-group
                                 id="checkbox-group-1"
+                                v-model="form.setting"
                                 :aria-describedby="ariaDescribedby"
                                 name="Settings"
                                 stacked
                             >
-                            <b-form-checkbox value="Users">Users</b-form-checkbox>
-                            <b-form-checkbox value="User Roles">User Roles</b-form-checkbox>
-                            <b-form-checkbox value="User Types">User Types</b-form-checkbox>
+                            <b-form-checkbox value="1">Users</b-form-checkbox>
+                            <b-form-checkbox value="2">User Roles</b-form-checkbox>
+                            <b-form-checkbox value="3">User Types</b-form-checkbox>
                             </b-form-checkbox-group>
                         </b-form-group>
                         </div>
@@ -256,56 +257,57 @@
                             <b-form-group  v-slot="{ ariaDescribedby }">
                             <b-form-checkbox-group
                                 id="checkbox-group-1"
-                                v-model="SettingsAccess"
+                                v-model="form.verification"
                                 :aria-describedby="ariaDescribedby"
                                 name="Verification"
                                 stacked
                             >
-                                <b-form-checkbox value="Pending">Pending</b-form-checkbox>
-                                <b-form-checkbox value="Approved">Approved</b-form-checkbox>
-                                <b-form-checkbox value="Declined">Declined</b-form-checkbox>
+                                <b-form-checkbox value="4">Pending</b-form-checkbox>
+                                <b-form-checkbox value="5">Approved</b-form-checkbox>
+                                <b-form-checkbox value="6">Declined</b-form-checkbox>
                                 </b-form-checkbox-group>
                             </b-form-group>
+                        </div>
+                        <div class="d-flex flex-column mr-3">
+                            <label for="User Access">Claims</label>
+                        <b-form-group  v-slot="{ ariaDescribedby }">
+                            <b-form-checkbox-group
+                                id="checkbox-group-1"
+                                v-model="form.claim"
+                                :aria-describedby="ariaDescribedby"
+                                name="flavour-1"
+                                stacked
+                            >
+                            <b-form-checkbox value="7">Claims</b-form-checkbox>
+                            </b-form-checkbox-group>
+                        </b-form-group>
                         </div>
                         <div class="d-flex flex-column mr-3">
                             <label for="User Access">Payments</label>
                         <b-form-group  v-slot="{ ariaDescribedby }">
                             <b-form-checkbox-group
                                 id="checkbox-group-1"
-                                v-model="access"
+                                v-model="form.payment"
                                 :aria-describedby="ariaDescribedby"
                                 name="Payments"
                                 stacked
                             >
-                            <b-form-checkbox value="Payments">Payments</b-form-checkbox>
+                            <b-form-checkbox value="8">Payments</b-form-checkbox>
                             </b-form-checkbox-group>
                         </b-form-group>
                         </div>
-                         <div class="d-flex flex-column mr-3">
-                            <label for="User Access">Claims</label>
-                        <b-form-group  v-slot="{ ariaDescribedby }">
-                            <b-form-checkbox-group
-                                id="checkbox-group-1"
-                                v-model="access"
-                                :aria-describedby="ariaDescribedby"
-                                name="flavour-1"
-                                stacked
-                            >
-                            <b-form-checkbox value="Claims">Claims</b-form-checkbox>
-                            </b-form-checkbox-group>
-                        </b-form-group>
-                        </div>
+
                          <div class="d-flex flex-column mr-3">
                             <label for="User Access">Portfolio</label>
                         <b-form-group  v-slot="{ ariaDescribedby }">
                             <b-form-checkbox-group
                                 id="checkbox-group-1"
-                                v-model="access"
+                                v-model="form.portfolio"
                                 :aria-describedby="ariaDescribedby"
                                 name="Portfolio"
                                 stacked
                             >
-                            <b-form-checkbox value="Portfolio">Portfolio</b-form-checkbox>
+                            <b-form-checkbox value="10">Portfolio</b-form-checkbox>
                             </b-form-checkbox-group>
                         </b-form-group>
                         </div>
@@ -314,12 +316,12 @@
                         <b-form-group  v-slot="{ ariaDescribedby }">
                             <b-form-checkbox-group
                                 id="checkbox-group-1"
-                                v-model="access"
+                                v-model="form.help"
                                 :aria-describedby="ariaDescribedby"
                                 name="Help"
                                 stacked
                             >
-                            <b-form-checkbox value="Help">Help</b-form-checkbox>
+                            <b-form-checkbox value="9">Help</b-form-checkbox>
                             </b-form-checkbox-group>
                         </b-form-group>
                         </div>
@@ -472,7 +474,8 @@
             </b-form>
             <template #modal-footer>
                 <b-button variant="default" data-dismiss="modal" @click="$bvModal.hide('edit-user-type-modal')"><i class="flaticon-cancel-12"></i> Discard</b-button>
-                <b-button variant="primary" @click="submitForm()">Save</b-button>
+                <!-- <b-button variant="primary" @click="submitForm()">Save</b-button> -->
+                <b-button variant="primary" @click="testing()">Save</b-button>
             </template>
         </b-modal>
     </div>
@@ -498,6 +501,12 @@
                 editUserId: 0,
                 form: {
                     user_type: '',
+                    code: '',
+                    settings: [],
+                    claims: [],
+                    verification: [],
+                    payment: [],
+                    help: [],
                     user_role: [],
                     username: '',
                     password: '',
@@ -507,7 +516,7 @@
                     email: '',
                     mobile: '',
                     status: {},
-                    selected: []
+                    selected: [],
                 },
                 readonly: {
                     username: false,
@@ -571,7 +580,6 @@
                         f.status        = {
                             id:     data.status,
                             name:   self.$helpers.capFirstLetter(data.status),
-                            status:   data.status
                         };
                     }
 
@@ -623,7 +631,6 @@
 
                         options['id']       = value['id']
                         options['name']     = self.$helpers.capFirstLetter(value['name'])
-                        options['status']     = value['status']
                         self.userStatusOptions.push(options)
                     })
                 }).catch(error=>{
@@ -733,6 +740,66 @@
                         toast.fire({icon: 'error',title: error.response.data.message ,padding: '2em'});
                     }
                 })
+            },
+
+            testing(){
+                let self = this
+                let formData = new FormData()
+
+                formData.append("user_type", self.form.user_type)
+                formData.append("code", self.form.code)
+                // formData.append("setting", self.form.setting)
+                // formData.append("verification", self.form.verification)
+                // formData.append("claim", self.form.claim)
+                // formData.append("payment", self.form.payment)
+                // formData.append("help", self.form.help)
+                // formData.append("portfolio", self.form.portfolio)
+
+                let selection =[].concat(self.form.setting, self.form.verification, self.form.claim, self.form.payment, self.form.help, self.form.portfolio);
+
+                console.log(selection);
+
+                formData.append("selection", selection)
+                let object = {};
+
+                formData.forEach((value, key) => object[key] = value);
+                var json = JSON.stringify(object);
+                console.log(json);
+
+                // this.isFormSubmit = true
+                // if (!this.form.username || !this.form.password || !this.form.user_type || !this.form.user_role || !this.form.firstname || !this.form.lastname || !this.form.email || !this.form.mobile || !this.form.status.id)
+                //     return false;
+
+                // declaration
+                const toast = this.$swal.mixin({ toast: true, position: 'top-end', showConfirmButton: false, timer: 3000, padding: '2em'});
+                let loader = this.$loading.show({container: this.$refs.editUserModalForm})
+
+                //post call
+                this.axios.post('/api/settings/user-types/save', formData)
+                .then(function (response) {
+                    loader.hide();
+
+                    if(response.data.status == "Success"){
+                        self.$bvModal.hide('edit-user-type-modal')
+                        self.onReset()
+                        self.$emit('submit-success', true)
+
+                        toast.fire({icon: 'success',title: response.data.message ,padding: '2em'});
+                    }else{
+                        toast.fire({icon: 'error',title: response.data.message ,padding: '2em'});
+                    }
+
+                    self.isFormSubmit = false
+                })
+                .catch(function (error) {
+                    loader.hide()
+                    if(error.response.data.message === undefined){
+                        toast.fire({icon: 'error',title: "An error occured, please contact the administrator." ,padding: '2em'});
+                    }else{
+                        toast.fire({icon: 'error',title: error.response.data.message ,padding: '2em'});
+                    }
+                })
+
             },
             onReset() {
                 // Reset form values
