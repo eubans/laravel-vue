@@ -461,6 +461,7 @@ export default {
                 } else if (!newValue) {
                     this.pageTitle = "Create";
 
+                    this.editUserId = 0;
                     this.onReset();
                 }
             },

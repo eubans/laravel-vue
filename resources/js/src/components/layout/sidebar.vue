@@ -77,7 +77,7 @@
         },
 
         created(){
-            this.isRoleAllowed('pending');
+            this.isModuleAllowed('pending');
         },
 
         mounted() {
