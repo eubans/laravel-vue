@@ -12,11 +12,11 @@ class Notification extends Model
 {
     use HasFactory;
 
-    protected $guarded = [];
+    // protected $guarded = [];
 
-    protected $dispatchesEvents = [
-        'created' => NotificationCreated::class,
-    ];
+    // protected $dispatchesEvents = [
+    //     'created' => NotificationCreated::class,
+    // ];
 
     public static function getNotificationUserCount($userId)
     {
