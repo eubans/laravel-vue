@@ -3,8 +3,8 @@
 # PrimeTech Base Boilerplate #
 
 ### Installation ###
-* Install PHP dependencies: `composer install`
 * Create new .env file from copying .env.example
+* Install PHP dependencies: `composer install`
 * Generate laravel app key `php artisan key:generate`
 * Migrate and run seeder: `php artisan migrate:fresh --seed`
 * Install node dependencies: `npm install`
