@@ -10,7 +10,7 @@ use App\Models\User;
 use App\Models\Module;
 use App\Models\UserExternalData;
 use Laravel\Socialite\Facades\Socialite;
-use App\Models\module_accesses;
+use App\Models\ModuleAccesses;
 use Auth;
 use Hash;
 
@@ -28,7 +28,7 @@ class AuthenticationController extends Controller
 
         $user = User::create([
             'user_role_id'  => 1,
-            'user_type_id'  => 2,
+            'user_type_id'  => 1,
             'name'          => $fields['name'],
             'email'         => $fields['email'],
             'password'      => Hash::make($fields['password']),
@@ -64,7 +64,7 @@ class AuthenticationController extends Controller
 
         $response = [
             'user' => User::getUserDetails($user->id),
-            'user_access'=>module_accesses::getURL($user->user_type_id),
+            'user_access'=>ModuleAccesses::getURL($user->user_type_id),
             'token' => $token
         ];
         return response($response, 201);

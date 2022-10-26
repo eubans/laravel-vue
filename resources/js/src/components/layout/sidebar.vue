@@ -13,70 +13,7 @@
                     </a>
                 </router-link>
 
-                <li class="menu" v-if="isRoleAllowed('verification')">
-                    <a href="#verifications" v-b-toggle class="dropdown-toggle" @click.prevent>
-                        <div class="">
-                            <i data-feather="thumbs-up"></i> <span>Verification List</span>
-                        </div>
-                        <div>
-                            <svg
-                                xmlns="http://www.w3.org/2000/svg"
-                                width="24"
-                                height="24"
-                                viewBox="0 0 24 24"
-                                fill="none"
-                                stroke="currentColor"
-                                stroke-width="2"
-                                stroke-linecap="round"
-                                stroke-linejoin="round"
-                                class="feather feather-chevron-right"
-                            >
-                                <polyline points="9 18 15 12 9 6"></polyline>
-                            </svg>
-                        </div>
-                    </a>
-                    <b-collapse id="verifications" accordion="menu">
-                        <ul class="collapse submenu list-unstyled show">
-                            <router-link v-if='isModuleAllowed("/verification/pending")' tag="li" to="/verification/pending" @click.native="toggleMobileMenu"><a>Pending</a></router-link>
-                            <router-link v-if='isModuleAllowed("/verification/approved")' tag="li" to="/verification/approved" @click.native="toggleMobileMenu"><a>Approved</a></router-link>
-                            <router-link v-if='isModuleAllowed("/verification/declined")' tag="li" to="/verification/declined" @click.native="toggleMobileMenu"><a>Declined</a></router-link>
-                        </ul>
-                    </b-collapse>
-                </li>
-
-                <router-link v-if="isRoleAllowed('portfolio')" tag="li" to="/portfolio" class="menu" @click.native="toggleMobileMenu">
-                    <a class="dropdown-toggle">
-                        <div class="">
-                            <i data-feather="user"></i> <span>Portfolio</span>
-                        </div>
-                    </a>
-                </router-link>
-
-                <router-link v-if="isRoleAllowed('claims')" tag="li" to="/claims" class="menu" @click.native="toggleMobileMenu">
-                    <a class="dropdown-toggle">
-                        <div class="">
-                            <i data-feather="edit"></i> <span>Claims</span>
-                        </div>
-                    </a>
-                </router-link>
-
-                <router-link v-if="isRoleAllowed('payment')" tag="li" to="/payment" class="menu" @click.native="toggleMobileMenu">
-                    <a class="dropdown-toggle">
-                        <div class="">
-                            <i data-feather="dollar-sign"></i> <span>Payment</span>
-                        </div>
-                    </a>
-                </router-link>
-
-                <router-link v-if="isRoleAllowed('help')" tag="li" to="/help" class="menu" @click.native="toggleMobileMenu">
-                    <a class="dropdown-toggle">
-                        <div class="">
-                            <i data-feather="help-circle"></i> <span>Help</span>
-                        </div>
-                    </a>
-                </router-link>
-
-                <li class="menu" v-if="isRoleAllowed('settings')">
+                <li class="menu" v-if="isModuleAllowed('Settings')">
                     <a href="#elements" v-b-toggle class="dropdown-toggle" @click.prevent>
                         <div class="">
                             <i data-feather="settings"></i> <span>Settings</span>
@@ -100,9 +37,9 @@
                     </a>
                     <b-collapse id="elements" accordion="menu">
                         <ul class="collapse submenu list-unstyled show">
-                            <router-link v-if='isModuleAllowed("/settings/users")' tag="li" to="/settings/users" @click.native="toggleMobileMenu"><a>Users</a></router-link>
-                            <router-link v-if='isModuleAllowed("/settings/users/roles")' tag="li" to="/settings/users/roles" @click.native="toggleMobileMenu"><a>User Role</a></router-link>
-                            <router-link v-if='isModuleAllowed("/settings/users/types")' tag="li" to="/settings/users/types" @click.native="toggleMobileMenu"><a>User Type</a></router-link>
+                            <router-link v-if='isSubModuleAllowed("/settings/users")' tag="li" to="/settings/users" @click.native="toggleMobileMenu"><a>Users</a></router-link>
+                            <router-link v-if='isSubModuleAllowed("/settings/users/roles")' tag="li" to="/settings/users/roles" @click.native="toggleMobileMenu"><a>User Role</a></router-link>
+                            <router-link v-if='isSubModuleAllowed("/settings/users/types")' tag="li" to="/settings/users/types" @click.native="toggleMobileMenu"><a>User Type</a></router-link>
                         </ul>
                     </b-collapse>
                 </li>
@@ -170,12 +107,12 @@
                     this.$store.commit('toggleSideBar', !this.$store.state.is_show_sidebar);
                 }
             },
-            isRoleAllowed(role){
+            isModuleAllowed(role){
                 let isAccessAllowed = false;
                 let userType = this.USER_ACCESS;
 
                 userType.forEach((value, index) => {
-                    if(value.name == role){
+                    if(value.module_name == role){
                         isAccessAllowed = true;
                     }
                 });
@@ -183,7 +120,7 @@
                 return isAccessAllowed;
             },
 
-            isModuleAllowed(url){
+            isSubModuleAllowed(url){
                 let isAccessAllowed = false;
                 let userType = this.USER_ACCESS;
 
