@@ -8,6 +8,22 @@ Vue.use(VueRouter);
 
 // Main Routes
 const routes = [
+    // excempted public urls
+    {
+        path: '/api/reset-password/:token',
+        name: 'api-reset-password',
+        meta: {
+            middleware: "replaced-guest",
+            excemptedModuleChecking: true,
+            urlReplacement: {
+                realUrl: 'reset-password',
+                params: [{
+                    paramName: 'token',
+                    paramPlacement: 3
+                }]
+            }
+        }
+    },
     // login
     {
         path: '/login',
@@ -34,6 +50,15 @@ const routes = [
         meta: {
             middleware: "guest",
             title: `Forgot Password`
+        }
+    },
+    {
+        path: '/reset-password/:token',
+        name: 'reset-password',
+        component: () => import('../views/auth/forgot-password.vue'),
+        meta: {
+            middleware: "guest",
+            title: `Reset Password`
         }
     },
 
@@ -178,30 +203,56 @@ router.beforeEach((to, from, next) => {
     // setting up Sanctum Token globally
     axios.defaults.headers.common['Authorization'] = `Bearer ` + store.state.auth.token
 
-    if (!store.state.auth.token && store.state.auth.authenticated) {
-    }
-    if (to.meta.middleware == "guest") {
-        if(store.state.auth.authenticated){
-            next({name:"dashboard"})
+    // if the url is for replacement
+    if(to.meta.urlReplacement){
+        const parsedPathname = window.location.pathname.split('/');
+        const parsedQuery = Object.fromEntries(new URLSearchParams(window.location.search).entries());
+
+        let routerObj = {
+            name: to.meta.urlReplacement.realUrl,
+            query: parsedQuery
         }
-        next()
-    } else {
-        if (store.state.auth.authenticated) {
-            // checking if user is login then redirecting to login page
-            axios.get('/api/user').catch(() => {
-                store.state.auth.authenticated = false;
-                store.state.auth.token = null;
-                router.push({ name: "login" })
-            })
-            if(!to.meta.excemptedModuleChecking){
-                if(!store.state.auth.user_access.some(e=>e.url == to.path)){
-                    next({name: "dashboard"});
-                }
+
+        if(to.meta.urlReplacement.params){
+            let routerParamObj = {}
+            to.meta.urlReplacement.params.forEach(function (params) {
+                routerParamObj[params.paramName] = parsedPathname[params.paramPlacement]
+            });
+            routerObj.params = routerParamObj
+        }
+
+        if(to.meta.middleware == 'replaced-guest'){
+            store.state.auth.authenticated = false;
+            store.state.auth.token = null;
+        }
+
+        router.push(routerObj);
+    }else{
+        // check if user is authenticated
+        if (to.meta.middleware == "guest") {
+            if(store.state.auth.authenticated){
+                next({name:"dashboard"})
             }
-            next();
-            //end--------------------------------------
+            next()
         } else {
-            next({ name: "login" })
+            if (store.state.auth.authenticated) {
+                // checking if user is login then redirecting to login page
+                axios.get('/api/user').catch(() => {
+                    store.state.auth.authenticated = false;
+                    store.state.auth.token = null;
+                    router.push({ name: "login" })
+                })
+                // checking if module is allowed to access
+                if(!to.meta.excemptedModuleChecking){
+                    if(!store.state.auth.user_access.some(e=>e.url == to.path)){
+                        next({name: "dashboard"});
+                    }
+                }
+                next();
+                //end--------------------------------------
+            } else {
+                next({ name: "login" })
+            }
         }
     }
 });
